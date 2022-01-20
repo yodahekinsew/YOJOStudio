@@ -122,6 +122,7 @@ body {
   justify-content: center;
   left: 50%;
   transform: translate(-50%, 100%);
+  will-change: bottom;
   bottom: 50%;
   z-index: 1000;
   height: 100px;
@@ -176,13 +177,21 @@ body {
   bottom: max(5%, calc(1.5 * var(--nav-dot-size)));
   z-index: 1000;
 }
+@media only screen and (max-width: 767px) {
+  #nav-dots {
+    opacity: 0;
+    bottom: 50%;
+  }
+}
 #nav-dots > .dot-holder > .dot {
-  transition-duration: 200ms;
+  transition-duration: 500ms;
 }
 #nav-dots > .dot-holder > .dot:hover {
+  transition-duration: 200ms;
   transform: scale(1.2);
 }
 #nav-dots > .dot-holder > .dot:active {
+  transition-duration: 200ms;
   transform: scale(0.9);
 }
 

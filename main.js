@@ -10,6 +10,9 @@ let scene, camera, renderer;
 const volverIcon = document.getElementById("volver-icon");
 const movementumIcon = document.getElementById("movementum-icon");
 const hopporIcon = document.getElementById("hoppor-icon");
+const volverVideo = document.getElementById("volver-video");
+const movementumVideo = document.getElementById("movementum-video");
+const hopporVideo = document.getElementById("hoppor-video");
 const dots = document.getElementById("loading-dots");
 const loadingCover = document.getElementById("loading-cover");
 
@@ -406,13 +409,10 @@ function init() {
       floor.receiveShadow = true;
       scene.add(floor);
 
-      const volverVideo = document.getElementById("volver-video");
       const volverVideoTex = new THREE.VideoTexture(volverVideo);
       volverVideo.play();
-      const movementumVideo = document.getElementById("movementum-video");
       movementumVideo.play();
       const movementumVideoTex = new THREE.VideoTexture(movementumVideo);
-      const hopporVideo = document.getElementById("hoppor-video");
       hopporVideo.play();
       const hopporVideoTex = new THREE.VideoTexture(hopporVideo);
 
@@ -444,18 +444,19 @@ function init() {
       updateAppIcons();
       updateSceneOnScroll();
       animate();
-      setTimeout(() => {
-        dots.id = "nav-dots";
-        setTimeout(() => {
-          loadingCover.style.opacity = 0;
-          // animate will call itself every frame after this
-          setTimeout(() => {
-            loadingCover.style.display = "none";
-            loadingCover.style.zIndex = -10;
-            app.style.overflowY = "auto";
-          }, 500);
-        }, 500);
-      }, 1000);
+
+      // setTimeout(() => {
+      //   dots.id = "nav-dots";
+      //   setTimeout(() => {
+      //     loadingCover.style.opacity = 0;
+      //     // animate will call itself every frame after this
+      //     setTimeout(() => {
+      //       loadingCover.style.display = "none";
+      //       loadingCover.style.zIndex = -10;
+      //       app.style.overflowY = "auto";
+      //     }, 500);
+      //   }, 500);
+      // }, 1000);
     },
     undefined,
     (err) => {
@@ -467,3 +468,22 @@ function init() {
 // TODO: Should only call init if we're renderering the
 // Three.js scene to save performance on mobile
 init();
+
+setInterval(() => {
+  if (
+    volverVideo.readyState == 4 &&
+    movementumVideo.readyState == 4 &&
+    hopporVideo.readyState == 4
+  ) {
+    dots.id = "nav-dots";
+    setTimeout(() => {
+      loadingCover.style.opacity = 0;
+      // animate will call itself every frame after this
+      setTimeout(() => {
+        loadingCover.style.display = "none";
+        loadingCover.style.zIndex = -10;
+        app.style.overflowY = "auto";
+      }, 500);
+    }, 500);
+  }
+}, 1200);
