@@ -36,14 +36,6 @@ makeQuery(
   0.25
 );
 makeQuery("only screen and (min-aspect-ratio: 2/3)", 0.5);
-// makeQuery("only screen and (max-width: 600px) and (max-aspect-ratio: 67)", 0);
-// makeQuery(
-//   "only screen and (max-width: 600px) and (min-aspect-ratio: 20/30)",
-//   0.4
-// );
-// makeQuery("only screen and (min-width: 601px) and (max-width: 767px)", 0.1);
-// makeQuery("only screen and (min-width: 768px) and (max-width: 991px)", 0.25);
-// makeQuery("only screen and (min-width: 992px)", 0.5);
 
 // === stuff for loading the iPhone ===
 const loader = new GLTFLoader();
@@ -53,6 +45,7 @@ var iPhoneTextures = [];
 var currentTexture = -1;
 function setiPhoneTexture(textureIndex) {
   if (currentTexture != -1) {
+    console.log("PAUSEing video #", currentTexture);
     iPhoneTextures[currentTexture].video.pause();
     iPhoneTextures[currentTexture].video.time = 0;
   }
@@ -60,6 +53,8 @@ function setiPhoneTexture(textureIndex) {
 
   let videoTexture = iPhoneTextures[textureIndex];
   videoTexture.video.play();
+  console.log("PLAYing video #", currentTexture);
+  console.log("Video: ", videoTexture.video);
   const newMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     map: videoTexture.texture,
@@ -279,22 +274,28 @@ function updateProperty(anim, scrollProgress) {
     }
   }
 
-  // If we have a valid keyframe and there's a "next" frame, lerp
-  if (keyFrame == -1)
-    return anim.setValue(getKeyFrameValue(anim.keyFrames[keyFrame + 1]));
-  if (keyFrame == anim.keyFrames.length - 1)
-    return anim.setValue(getKeyFrameValue(anim.keyFrames[keyFrame]));
-  let interpolant = inverseLerp(
-    anim.keyFrames[keyFrame].scroll,
-    anim.keyFrames[keyFrame + 1].scroll,
-    scrollProgress
-  );
-  let interpolatedValue = anim.interpolateValue(
-    getKeyFrameValue(anim.keyFrames[keyFrame]),
-    getKeyFrameValue(anim.keyFrames[keyFrame + 1]),
-    interpolant
-  );
-  return anim.setValue(interpolatedValue);
+  // If we have a valid keyframe setup, get the new value
+  let newValue;
+  if (keyFrame == -1) newValue = getKeyFrameValue(anim.keyFrames[keyFrame + 1]);
+  else if (keyFrame == anim.keyFrames.length - 1)
+    newValue = getKeyFrameValue(anim.keyFrames[keyFrame]);
+  else {
+    let interpolant = inverseLerp(
+      anim.keyFrames[keyFrame].scroll,
+      anim.keyFrames[keyFrame + 1].scroll,
+      scrollProgress
+    );
+    newValue = anim.interpolateValue(
+      getKeyFrameValue(anim.keyFrames[keyFrame]),
+      getKeyFrameValue(anim.keyFrames[keyFrame + 1]),
+      interpolant
+    );
+  }
+
+  if (anim.lastValue != newValue) {
+    anim.lastValue = newValue;
+    anim.setValue(newValue);
+  }
 }
 function updateSceneOnScroll() {
   var scrollProgress = app.scrollTop / (app.scrollHeight - app.clientHeight);
