@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>YoJo Studio</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="app">
+      <div id="loading-cover"></div>
+      <div id="loading-dots">
+        <div class="dot-holder">
+          <a
+            class="dot bg-blue"
+            onclick="overrideTransitionDuration()"
+            href="#start-target"
+          ></a>
+        </div>
+        <div class="dot-holder">
+          <a
+            class="dot bg-red"
+            onclick="overrideTransitionDuration()"
+            href="#volver-target"
+          ></a>
+        </div>
+
+        <div class="dot-holder">
+          <a
+            class="dot bg-yellow"
+            onclick="overrideTransitionDuration()"
+            href="#movementum-target"
+          ></a>
+        </div>
+        <div class="dot-holder">
+          <a
+            class="dot bg-green"
+            onclick="overrideTransitionDuration()"
+            href="#hoppor-target"
+          ></a>
+        </div>
+      </div>
+      <div id="app-icons">
+        <a
+          id="volver-icon"
+          class="app-icon"
+          href="https://apps.apple.com/us/app/volver-endless-revolution/id1538375240?itscg=30200&amp;itsct=apps_box_appicon"
+          ><img
+            src="https://is1-ssl.mzstatic.com/image/thumb/Purple115/v4/3e/df/73/3edf73c1-fe8f-9afc-d8f8-8ae1a6bfc32f/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/540x540bb.jpg"
+            alt="Volver - Endless Revolution"
+        /></a>
+        <a
+          id="movementum-icon"
+          class="app-icon"
+          href="https://apps.apple.com/us/app/movementum-move-to-live/id1564473666?itscg=30200&amp;itsct=apps_box_appicon"
+          ><img
+            src="https://is5-ssl.mzstatic.com/image/thumb/Purple115/v4/10/70/ae/1070aeaf-340d-1769-da30-41e87e1e6755/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/540x540bb.jpg"
+            alt="Movementum - Move To Live"
+        /></a>
+        <a
+          id="hoppor-icon"
+          class="app-icon"
+          href="https://apps.apple.com/us/app/hoppor/id1565091317?itscg=30200&amp;itsct=apps_box_appicon"
+          ><img
+            src="https://is3-ssl.mzstatic.com/image/thumb/Purple116/v4/fa/66/65/fa66657f-a05f-037f-c808-048712895213/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/540x540bb.jpg"
+            alt="Hoppor"
+        /></a>
+      </div>
+      <div id="heading">
+        <h1>YoJo Studio</h1>
+        <h2>
+          <span class="gray">Games</span> made by
+          <span class="gray">Yodahe Alemu</span> and
+          <span class="gray">Joshua Verdejo</span>
+        </h2>
+      </div>
+      <div id="volver" class="page">
+        <div class="content">
+          <div class="content-heading">
+            <h1>Volver</h1>
+            <h2 class="gray">Endless Revolution</h2>
+          </div>
+          <p>
+            Take a spin on Volver, a simple, challenging game that is designed
+            to be <span class="italics">easy to learn</span> but
+            <span class="italics">hard to master</span>. <br /><br />
+            Volver includes: <br />
+            &emsp;&bull; <span class="bold">Simple gameplay:</span> play easily
+            with one hand <br />
+            &emsp;&bull; <span class="bold">Levels of difficulty:</span> as you
+            get better, Volver gets more difficult! Compete with friends for the
+            highest score <br />
+            &emsp;&bull; <span class="bold">Customization:</span> Everything in
+            the game is customizable, from the in game theme, to the app's icon
+            itself!
+          </p>
+          <a
+            id="volver-app-store-link"
+            class="app-store-link"
+            href="https://apps.apple.com/us/app/volver-endless-revolution/id1538375240?itsct=apps_box_badge&amp;itscg=30200"
+            ><img
+              src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1612569600&h=74885717a598087332bd278ca37d920a"
+              alt="Download on the App Store"
+          /></a>
+        </div>
+      </div>
+      <div id="movementum" class="page">
+        <div class="content">
+          <div class="content-heading">
+            <h1>Movementum</h1>
+            <h2 class="gray">Move To Live</h2>
+          </div>
+          <p>
+            In movementum, moving is your only method of
+            <span class="italics">offense</span> <span class="bold">and</span>
+            <span class="italics">defense</span>. <br /><br />
+            Dodge enemies and your own bullets as you try to survive for as long
+            as possible. Get the highest score you can and compete with your
+            friends. And with no ads pestering you every minute, you can sit
+            back and enjoy the addicting gameplay and lo-fi hip hop music.
+          </p>
+          <a
+            id="movementum-app-store-link"
+            class="app-store-link"
+            href="https://apps.apple.com/us/app/movementum-move-to-live/id1564473666?itsct=apps_box_badge&amp;itscg=30200"
+            ><img
+              src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1621728000&h=7bbb3d4d2c6fa02aac72629865f54859"
+              alt="Download on the App Store"
+          /></a>
+        </div>
+      </div>
+      <div id="hoppor" class="page">
+        <div class="content">
+          <div class="content-heading">
+            <h1>Hoppor</h1>
+            <h2 class="gray">Don't Stop Hopping</h2>
+          </div>
+          <p>
+            If you want to win in Hoppor, you're only choice is to continue to
+            <span class="italics">climb higher</span>. <br /><br />
+            Hop between, bounce off, slide down, and avoid different platforms.
+            Get the highest score you can and compete with your friends. And
+            with no ads pestering you every minute, you can sit back and enjoy
+            the addicting gameplay and chill music.
+          </p>
+          <a
+            id="hoppor-app-store-link"
+            class="app-store-link"
+            href="https://apps.apple.com/us/app/hoppor/id1565091317?itsct=apps_box_badge&amp;itscg=30200"
+            ><img
+              src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1636156800&h=7e3303962dcf0c50153cab8d824e53e1"
+              alt="Download on the App Store"
+          /></a>
+        </div>
+      </div>
+      <div id="start-target" class="scroll-target"></div>
+      <div id="volver-target" class="scroll-target"></div>
+      <div id="movementum-target" class="scroll-target"></div>
+      <div id="hoppor-target" class="scroll-target"></div>
+      <video
+        id="volver-video"
+        playsinline
+        webkit-playsinline
+        muted
+        loop
+        autoplay
+        width="320"
+        height="240"
+        src="./iPhone/video textures/volver.mov"
+        style="display: none"
+      ></video>
+      <video
+        id="movementum-video"
+        playsinline
+        webkit-playsinline
+        muted
+        loop
+        autoplay
+        width="320"
+        height="240"
+        src="./iPhone/video textures/movementum.mov"
+        style="display: none"
+      ></video>
+      <video
+        id="hoppor-video"
+        playsinline
+        webkit-playsinline
+        muted
+        loop
+        autoplay
+        width="320"
+        height="240"
+        src="./iPhone/video textures/hoppor.mov"
+        style="display: none"
+      ></video>
+      <!-- <div id="start-target" class="scroll-target">Hello</div>
+      <div id="volver-target" class="scroll-target">Hello</div>
+      <div id="movementum-target" class="scroll-target">Hello</div>
+      <div id="hoppor-target" class="scroll-target">Hello</div> -->
+    </div>
+    <!-- <script src="js/three.js"></script> -->
+    <!-- <script type="module">
+      // Find the latest version by visiting https://cdn.skypack.dev/three.
+
+
+    </script> -->
+    <script type="module" src="js/main.js"></script>
+    <script>
+      var transitionOverrideTimeout;
+      function overrideTransitionDuration() {
+        document.documentElement.style.setProperty(
+          "--page-transition-speed",
+          "0ms"
+        );
+        clearTimeout(transitionOverrideTimeout);
+        transitionOverrideTimeout = setTimeout(() => {
+          document.documentElement.style.setProperty(
+            "--page-transition-speed",
+            "500ms"
+          );
+        }, 200);
+      }
+      // function ScrollTo(y) {
+      //   let app = document.getElementById("app");
+      //   let target = y * (app.scrollHeight - app.clientHeight);
+      //   app.scrollTo(0, target);
+      // }
+    </script>
+  </body>
+</html>
