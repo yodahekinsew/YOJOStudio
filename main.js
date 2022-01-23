@@ -428,6 +428,7 @@ function init() {
   loader.load(
     "./iPhone/model.glb",
     (gltf) => {
+      console.log("Loaded iPhone Model");
       iPhone = gltf.scene;
 
       // === Setting up scene ===
@@ -581,6 +582,12 @@ function init() {
 init();
 
 setInterval(() => {
+  console.log(
+    "Ready States",
+    volverVideo.readyState,
+    movementumVideo.readyState,
+    hopporVideo.readyState
+  );
   if (
     volverVideo.readyState == 4 &&
     movementumVideo.readyState == 4 &&
