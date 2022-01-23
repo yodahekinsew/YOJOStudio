@@ -17,6 +17,7 @@
 #heading {
   /* transition-duration: 500ms; */
   position: fixed;
+  z-index: 1;
   width: 75%;
   height: 45%;
   bottom: 0;
@@ -45,6 +46,16 @@
   //   }
 }
 
+.text-link {
+  transition: color 500ms;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  transition: color 200ms;
+  color: #000;
+}
+
 @media (prefers-color-scheme: dark) {
   #heading > h2 {
     color: #999;
@@ -52,5 +63,9 @@
 
   #heading .gray {
     color: #ccc;
+  }
+
+  .text-link:hover {
+    color: #fff !important;
   }
 }

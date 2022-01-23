@@ -234,6 +234,7 @@ const scrollAnimation = {
       //   "--dot-size",
       //   value ? "25px" : "35px"
       // );
+      document.getElementById("heading").style.zIndex = value > 0 ? 1 : 0;
     },
     interpolateValue: (a, b, t) => a + (b - a) * t,
     keyFrames: [
