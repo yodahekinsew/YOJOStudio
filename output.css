@@ -91,6 +91,7 @@ body {
   flex-direction: column;
   justify-content: start;
   align-items: start;
+  pointer-events: none;
 }
 
 #heading > h1 {
@@ -107,6 +108,7 @@ body {
 .text-link {
   transition: color 500ms;
   text-decoration: none;
+  pointer-events: all;
 }
 
 .text-link:hover {

@@ -92,6 +92,7 @@ handlePrefersColorScheme(prefersColorSchemeQuery);
 
 // === stuff for loading the iPhone ===
 const loader = new GLTFLoader();
+
 let iPhone, iPhoneScreen;
 const iPhoneWorldDepth = 3.5;
 const cameraHeight = 0;
@@ -124,7 +125,7 @@ function setiPhonePosition(x, y) {
 
   // Move directional light with phone so shadow is always in view
   directionalLight.position.set(newPos.x, 15, 10);
-  directionalLight.target.position.set(0, 0, 0);
+  directionalLight.target.position.set(newPos.x, 0, 0);
 }
 
 // Update (or animation) loop
@@ -383,8 +384,10 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  updateAppIcons();
-  updateSceneOnScroll();
+  requestAnimationFrame(() => {
+    updateAppIcons();
+    updateSceneOnScroll();
+  });
 }
 function updateAppIcons() {
   camera.updateMatrixWorld();
@@ -422,11 +425,12 @@ function updateAppIcons() {
   movementumIcon.style.top = `${screenPos.y - halfIconSize}px`;
 }
 
+var finishedLoadingScene = false;
 // Init function to start/setup everything else
 function init() {
-  // Loading the iPhone
+  console.log("Starting to load");
   loader.load(
-    "./iPhone/model.glb",
+    "/iPhone/min-model.glb",
     (gltf) => {
       console.log("Loaded iPhone Model");
       iPhone = gltf.scene;
@@ -455,7 +459,7 @@ function init() {
 
       // Adding the spot light (main light)
       directionalLight = new THREE.DirectionalLight(
-        usingDarkColorScheme ? "#19191A" : "#ffffff"
+        usingDarkColorScheme ? "#19191a" : "#ffffff"
       );
       directionalLight.position.set(0, 15, 10);
       directionalLight.castShadow = true;
@@ -489,6 +493,7 @@ function init() {
       backFloor.position.set(0, -3.25, 5 + iPhoneWorldDepth + 0.2);
       scene.add(backFloor);
 
+      // iPhone
       const volverVideoTex = new THREE.VideoTexture(volverVideo);
       volverVideo.play();
       movementumVideo.play();
@@ -519,6 +524,16 @@ function init() {
         }
       });
 
+      const appleLogo =
+        iPhone.children[0].children[0].children[0].children[0].children[14]
+          .children[0];
+      const newMaterial = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        metalness: 1,
+        roughness: 0,
+      });
+      appleLogo.material = newMaterial;
+
       scene.add(iPhone);
 
       requestAnimationFrame(() => {
@@ -531,9 +546,7 @@ function init() {
       var scrollDeltaBuildup = 0;
       const simulatedScrollSpeed = 15;
       const simulateScrolling = () => {
-        console.log(app.style.overflow);
         if (forceSmoothScrolling) {
-          console.log("simulating scrolling!");
           const simulatedScrollAmount = Math.min(
             simulatedScrollSpeed,
             Math.abs(scrollDeltaBuildup)
@@ -573,6 +586,9 @@ function init() {
           );
         }
       };
+
+      console.log("Finished loading scene!");
+      finishedLoadingScene = true;
     },
     undefined,
     (err) => {
@@ -593,7 +609,8 @@ var initialInterval = setInterval(() => {
   if (
     volverVideo.readyState >= 1 &&
     movementumVideo.readyState >= 1 &&
-    hopporVideo.readyState >= 1
+    hopporVideo.readyState >= 1 &&
+    finishedLoadingScene
   ) {
     clearInterval(initialInterval);
     dots.id = "nav-dots";
