@@ -466,57 +466,6 @@ function init() {
       backFloor.position.set(0, -3.25, 5 + iPhoneWorldDepth + 0.2);
       scene.add(backFloor);
 
-      // Particles
-      // const textureLoader = new THREE.TextureLoader();
-      // const particleTexture = textureLoader.load("./static/particles/1.png");
-      // const particlesGeometry = new THREE.BufferGeometry();
-      // const count = 100;
-      // const points = new Float32Array(3 * count * count);
-      // const colors = new Float32Array(3 * count * count);
-      // for (var i = 0; i < 3 * count * count; i += 3) {
-      //   points[i] = (Math.random() - 0.5) * 2 * 100;
-      //   points[i + 1] = 0;
-      //   points[i + 2] = -Math.random() * 100;
-
-      //   // const depthFactor = Math.abs(
-      //   //   Math.sqrt(
-      //   //     Math.pow(1.75 * points[i], 2) + Math.pow(points[i + 2], 2)
-      //   //   ) / 35
-      //   // );
-      //   const depthFactor = Math.abs(points[i + 2] / 100);
-      //   // const depthFactor = 0;
-      //   colors[i] = 1 * (1 - depthFactor) + 0.9333333 * depthFactor;
-      //   colors[i + 1] = 1 * (1 - depthFactor) + 0.9333333 * depthFactor;
-      //   colors[i + 2] = 1 * (1 - depthFactor) + 0.9333333 * depthFactor;
-      //   // colors[i] = (26 / 255) * (1 - depthFactor) + 0.9333333 * depthFactor;
-      //   // colors[i + 1] =
-      //   //   (233 / 255) * (1 - depthFactor) + 0.9333333 * depthFactor;
-      //   // colors[i + 2] =
-      //   //   (150 / 255) * (1 - depthFactor) + 0.9333333 * depthFactor;
-      // }
-      // particlesGeometry.setAttribute(
-      //   "position",
-      //   new THREE.BufferAttribute(points, 3)
-      // );
-      // particlesGeometry.setAttribute(
-      //   "color",
-      //   new THREE.BufferAttribute(colors, 3)
-      // );
-      // // particlesGeometry.rotateX(Math.PI / 2);
-      // particlesGeometry.translate(0, 10, 0);
-      // const particlesMaterial = new THREE.PointsMaterial({
-      //   // color: 0xd82751,
-      //   // map: particleTexture,
-      //   alphaMap: particleTexture,
-      //   transparent: true,
-      //   alphaTest: 0.5,
-      //   // sizeAttenuation: false,
-      //   size: 5,
-      //   vertexColors: true,
-      // });
-      // const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-      // // scene.add(particles);
-
       const volverVideoTex = new THREE.VideoTexture(volverVideo);
       volverVideo.play();
       movementumVideo.play();
