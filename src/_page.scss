@@ -1,0 +1,91 @@
+@use "responsive";
+
+.page {
+  transition-duration: var(--page-transition-speed);
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+.content-heading > h1 {
+  font-size: 5vh;
+  margin: 0px;
+}
+.content-heading > h2 {
+  font-size: 2.5vh;
+  margin: 0px;
+}
+.content {
+  position: absolute;
+  height: 90vh;
+  width: 80vw;
+  left: 10%; /* Animate this in order to move the content out from the phone */
+  bottom: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  @include responsive.md {
+    justify-content: initial;
+    height: 35vh;
+    width: 40vw;
+    bottom: 10%;
+  }
+}
+.content > p {
+  font-size: 2vh;
+  font-weight: 500;
+  display: none;
+  @include responsive.md {
+    display: initial;
+    justify-content: space-between;
+  }
+}
+#movementum > .content {
+  left: unset;
+  right: 10%;
+  align-items: end;
+  text-align: right;
+  @include responsive.md {
+    align-items: start;
+    text-align: initial;
+  }
+}
+
+.gray {
+  color: #aaa;
+}
+.italics {
+  font-style: italic;
+}
+.bold {
+  font-weight: 700;
+}
+
+#volver .highlight {
+  color: var(--red);
+}
+
+#movementum .highlight {
+  color: var(--yellow);
+}
+
+#hoppor .highlight {
+  color: var(--green);
+}
+
+@media (prefers-color-scheme: dark) {
+  .content-heading > h1 {
+    color: white;
+    font-size: 5vh;
+    margin: 0px;
+  }
+  .gray {
+    color: #aaa;
+  }
+  .content > p {
+    color: white;
+  }
+}

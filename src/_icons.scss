@@ -1,0 +1,126 @@
+@use "responsive";
+
+.scroll-down {
+  align-self: center;
+  position: absolute;
+  height: 5vh;
+  bottom: 4vh;
+
+  display: flex;
+  flex-direction: column;
+  @include responsive.md {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.mouse {
+  height: 100%;
+}
+
+.chevron-down {
+  margin-top: 7.5px;
+  height: 30%;
+  animation: chevron-down-bobbing 2s ease-in-out infinite;
+}
+
+@keyframes chevron-down-bobbing {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(0px, calc(-50%));
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+// .chevron-down::after {
+//   position: absolute;
+//   top: 5vh;
+//   //   left: calc(100% / 2 - 8.75px);
+//   left: calc(0.21vh);
+//   width: 1.2vh;
+//   height: 0.6vh;
+//   border-radius: 0.5vh;
+//   transform: rotate(45deg);
+//   background-color: black;
+//   content: "";
+// }
+// .chevron-down::before {
+//   position: absolute;
+//   top: 5vh;
+//   //   left: calc(100% / 2 - 3.25px);
+//   left: calc(0.63vh);
+//   width: 1.2vh;
+//   height: 0.6vh;
+//   border-radius: 3px;
+//   transform: rotate(-45deg);
+//   background-color: black;
+//   content: "";
+// }
+
+img {
+  transition-duration: 500ms;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+.app-icon:hover > img,
+.app-store-link:hover > img {
+  transition-duration: 100ms;
+  transform: scale(0.95);
+}
+.app-icon:active > img,
+.app-store-link:active > img {
+  transition-duration: 200ms;
+  transform: scale(0.9);
+}
+
+#app-icons {
+  position: fixed;
+  z-index: 100;
+}
+.app-icon {
+  transition-duration: var(--page-transition-speed);
+  width: var(--app-size);
+  height: var(--app-size);
+  border-radius: 22%;
+  /* display: inline-block; */
+  vertical-align: middle;
+  position: absolute;
+  opacity: 0;
+  left: 1250px;
+  top: 750px;
+
+  display: none;
+  @include responsive.md {
+    display: unset;
+  }
+}
+.app-icon > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 22%;
+  display: inline-block;
+  vertical-align: middle;
+  //   filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.25));
+}
+
+.app-store-link {
+  pointer-events: visible;
+  display: block;
+  height: 7.5vh;
+  @include responsive.md {
+    height: 5vh;
+  }
+}
+.app-store-link > img {
+  //   border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  //   filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.25));
+}

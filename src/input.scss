@@ -1,0 +1,23 @@
+@use "base";
+@use "start";
+@use "page";
+@use "nav";
+@use "icons";
+
+:root {
+  --blue: black;
+  --green: rgb(26, 233, 150);
+  --yellow: rgb(254, 173, 10);
+  --red: rgb(216, 39, 81);
+  --app-size: 15vmin;
+  --link-size: 250px;
+  --nav-dot-size: 25px;
+  --loading-dot-size: 30px;
+  --page-transition-speed: 500ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --blue: white;
+  }
+}

@@ -15,32 +15,65 @@ const movementumVideo = document.getElementById("movementum-video");
 const hopporVideo = document.getElementById("hoppor-video");
 const dots = document.getElementById("loading-dots");
 const loadingCover = document.getElementById("loading-cover");
+const yojoLogo = document.getElementById("yojo-logo");
+const yojoStudioLogo = document.getElementById("yojo-studio-logo");
 
 // === Media Queries ===
 var iPhoneOffsetFromCenter = 0.5;
+var animateScreen = false;
+var prefersReducedMotion = false;
+var usingDarkColorScheme = false;
 // Create a condition that targets viewports at least 768px wide
-function makeQuery(queryString, offset) {
+function makeQuery(queryString, offset, shouldAnimateScreen) {
   const query = window.matchMedia(queryString);
   const handleQuery = (e) => {
     if (e.matches) {
       console.log("Query: ", e, " passed!");
       iPhoneOffsetFromCenter = offset;
+      animateScreen = prefersReducedMotion ? false : shouldAnimateScreen;
     }
   };
   query.addListener(handleQuery);
   handleQuery(query);
 }
-makeQuery("only screen and (max-aspect-ratio: 1/2)", 0);
+makeQuery("only screen and (max-aspect-ratio: 1/2)", 0, false);
 makeQuery(
   "only screen and (min-aspect-ratio: 1/2) and (max-aspect-ratio: 2/3)",
-  0.25
+  0.25,
+  false
 );
-makeQuery("only screen and (min-aspect-ratio: 2/3)", 0.5);
+makeQuery("only screen and (min-aspect-ratio: 2/3)", 0.5, true);
+
+const handlePrefersReducedMotion = (e) => {
+  if (e.matches) {
+    prefersReducedMotion = true;
+    animateScreen = false;
+  }
+};
+const prefersReducedMotionQuery = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
+prefersReducedMotionQuery.addListener(handlePrefersReducedMotion);
+handlePrefersReducedMotion(prefersReducedMotionQuery);
+
+const handlePrefersColorScheme = (e) => {
+  usingDarkColorScheme = e.matches;
+  if (e.matches) {
+    yojoLogo.src = "./static/YoJoLogoWhite.svg";
+    yojoStudioLogo.src = "./static/YoJoStudioLogoWhite.svg";
+  }
+};
+const prefersColorSchemeQuery = window.matchMedia(
+  "(prefers-color-scheme: dark)"
+);
+prefersColorSchemeQuery.addListener(handlePrefersColorScheme);
+handlePrefersColorScheme(prefersColorSchemeQuery);
 
 // === stuff for loading the iPhone ===
 const loader = new GLTFLoader();
 let iPhone, iPhoneScreen;
 const iPhoneWorldDepth = 3.5;
+const cameraHeight = 0;
 var iPhoneTextures = [];
 var currentTexture = -1;
 function setiPhoneTexture(textureIndex) {
@@ -63,19 +96,21 @@ function setiPhoneTexture(textureIndex) {
 }
 function setiPhonePosition(x, y) {
   // TODO: Might need to remove the camera updates for performance sake
+  // let cameraPos = camera.position;
+  // camera.position.set(0, 0, 10);
   camera.updateMatrixWorld();
   camera.updateProjectionMatrix();
   const depth = new THREE.Vector3(0, 0, iPhoneWorldDepth).project(camera).z;
   const newPos = new THREE.Vector3(x, y, depth).unproject(camera);
+  newPos.x -= camera.position.x;
+  newPos.y -= camera.position.y;
   iPhone.position.copy(newPos);
+  // camera.position.copy(cameraPos);
 }
 
 // Update (or animation) loop
 function animate() {
   requestAnimationFrame(animate);
-
-  // controls.update();
-
   renderer.render(scene, camera);
 }
 
@@ -88,10 +123,10 @@ const scrollAnimation = {
       // Transition from Start to Volver
       {
         scroll: 0,
-        value: () => new THREE.Vector2(iPhoneOffsetFromCenter, 5),
+        value: () => new THREE.Vector2(iPhoneOffsetFromCenter, -2.5),
       },
       {
-        scroll: 1 / 3,
+        scroll: 1 / 6,
         value: () => new THREE.Vector2(iPhoneOffsetFromCenter, 0),
       },
       // Transition from Volver to Movementum
@@ -128,8 +163,8 @@ const scrollAnimation = {
     keyFrames: [
       // Transition from Start to Volver
       {
-        scroll: 0,
-        value: new THREE.Vector3(Math.PI / 2, 0, -2.125 * Math.PI),
+        scroll: 1 / 6,
+        value: new THREE.Vector3(Math.PI / 2, 0, -Math.PI),
       },
       {
         scroll: 1 / 3,
@@ -325,8 +360,6 @@ function toScreenPosition(vector, camera) {
 }
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
-  console.log(`Camera Aspect: ${camera.aspect}`);
-  console.log(camera);
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -336,15 +369,21 @@ function onWindowResize() {
 function updateAppIcons() {
   camera.updateMatrixWorld();
   camera.updateProjectionMatrix();
-  var halfIconSize = getComputedStyle(
-    document.documentElement
-  ).getPropertyValue("--app-size");
-  halfIconSize = parseInt(halfIconSize) / 2;
+  // var halfIconSize = getComputedStyle(
+  //   document.documentElement
+  // ).getPropertyValue("--app-size");
+  // halfIconSize = parseInt(halfIconSize) / 2;
+  var halfIconSize =
+    (0.15 * Math.min(window.innerWidth, window.innerHeight)) / 2;
   const depth = new THREE.Vector3(0, 0, iPhoneWorldDepth).project(camera).z;
   var newPos = new THREE.Vector3(0.5, 0, depth).unproject(camera);
   newPos.x += 1;
   newPos.y -= 2.5;
   var screenPos = toScreenPosition(newPos, camera);
+  if (screenPos.x - halfIconSize >= window.innerWidth)
+    screenPos.x = window.innerWidth - 15;
+  if (screenPos.y - halfIconSize >= window.innerHeight)
+    screenPos.y = window.innerHeight - 15;
   volverIcon.style.left = `${screenPos.x - halfIconSize}px`;
   volverIcon.style.top = `${screenPos.y - halfIconSize}px`;
   hopporIcon.style.left = `${screenPos.x - halfIconSize}px`;
@@ -353,15 +392,16 @@ function updateAppIcons() {
   newPos.x -= 1;
   newPos.y -= 2.5;
   screenPos = toScreenPosition(newPos, camera);
+  if (screenPos.x - halfIconSize >= window.innerWidth)
+    screenPos.x = window.innerWidth - 15;
+  if (screenPos.y - halfIconSize >= window.innerHeight)
+    screenPos.y = window.innerHeight - 15;
   movementumIcon.style.left = `${screenPos.x - halfIconSize}px`;
   movementumIcon.style.top = `${screenPos.y - halfIconSize}px`;
 }
 
 // Init function to start/setup everything else
 function init() {
-  window.addEventListener("resize", onWindowResize);
-  app.onscroll = updateSceneOnScroll;
-
   // Loading the iPhone
   loader.load(
     "./iPhone/model.glb",
@@ -383,32 +423,99 @@ function init() {
       });
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0xeeeeee, 0);
+      // renderer.setClearColor(0x000000, 0);
       // Enable shadows in renderer
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
       // Setting up camera
-      camera.position.setZ(10);
+      camera.position.set(0, cameraHeight, 10);
 
       // Adding the spot light (main light)
-      const spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.position.set(0, 10, 5);
-      spotLight.castShadow = true;
-      spotLight.shadow.mapSize.width = 2048;
-      spotLight.shadow.mapSize.height = 2048;
-      scene.add(spotLight);
+      const directionalLight = new THREE.DirectionalLight(
+        usingDarkColorScheme ? "#19191A" : "#ffffff"
+      );
+      directionalLight.position.set(0, 15, 10);
+      directionalLight.castShadow = true;
+      directionalLight.shadow.camera = new THREE.OrthographicCamera(
+        -10,
+        10,
+        10,
+        -10,
+        0.1,
+        1000
+      );
+      directionalLight.shadow.mapSize.width = 2048;
+      directionalLight.shadow.mapSize.height = 2048;
+      scene.add(directionalLight);
 
       // Adding an ambient light (basically controls the shadow color since all materials are white)
-      const ambientLight = new THREE.AmbientLight(0xeeeeee);
+      const ambientLight = new THREE.AmbientLight(
+        usingDarkColorScheme ? 0x202124 : 0xeeeeee
+      );
       scene.add(ambientLight);
 
-      var wallGeometry = new THREE.BoxGeometry(1024, 1, 1024);
+      // Floor
+      var wallGeometry = new THREE.BoxGeometry(1024, 0.01, 10);
       var wallMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
-      const floor = new THREE.Mesh(wallGeometry, wallMaterial);
-      floor.position.set(0, -3.25, 0);
-      floor.receiveShadow = true;
-      scene.add(floor);
+      const topFloor = new THREE.Mesh(wallGeometry, wallMaterial);
+      topFloor.position.set(0, -3.25, -5 + iPhoneWorldDepth - 0.2);
+      topFloor.receiveShadow = true;
+      scene.add(topFloor);
+      const backFloor = new THREE.Mesh(wallGeometry, wallMaterial);
+      backFloor.position.set(0, -3.25, 5 + iPhoneWorldDepth + 0.2);
+      scene.add(backFloor);
+
+      // Particles
+      // const textureLoader = new THREE.TextureLoader();
+      // const particleTexture = textureLoader.load("./static/particles/1.png");
+      // const particlesGeometry = new THREE.BufferGeometry();
+      // const count = 100;
+      // const points = new Float32Array(3 * count * count);
+      // const colors = new Float32Array(3 * count * count);
+      // for (var i = 0; i < 3 * count * count; i += 3) {
+      //   points[i] = (Math.random() - 0.5) * 2 * 100;
+      //   points[i + 1] = 0;
+      //   points[i + 2] = -Math.random() * 100;
+
+      //   // const depthFactor = Math.abs(
+      //   //   Math.sqrt(
+      //   //     Math.pow(1.75 * points[i], 2) + Math.pow(points[i + 2], 2)
+      //   //   ) / 35
+      //   // );
+      //   const depthFactor = Math.abs(points[i + 2] / 100);
+      //   // const depthFactor = 0;
+      //   colors[i] = 1 * (1 - depthFactor) + 0.9333333 * depthFactor;
+      //   colors[i + 1] = 1 * (1 - depthFactor) + 0.9333333 * depthFactor;
+      //   colors[i + 2] = 1 * (1 - depthFactor) + 0.9333333 * depthFactor;
+      //   // colors[i] = (26 / 255) * (1 - depthFactor) + 0.9333333 * depthFactor;
+      //   // colors[i + 1] =
+      //   //   (233 / 255) * (1 - depthFactor) + 0.9333333 * depthFactor;
+      //   // colors[i + 2] =
+      //   //   (150 / 255) * (1 - depthFactor) + 0.9333333 * depthFactor;
+      // }
+      // particlesGeometry.setAttribute(
+      //   "position",
+      //   new THREE.BufferAttribute(points, 3)
+      // );
+      // particlesGeometry.setAttribute(
+      //   "color",
+      //   new THREE.BufferAttribute(colors, 3)
+      // );
+      // // particlesGeometry.rotateX(Math.PI / 2);
+      // particlesGeometry.translate(0, 10, 0);
+      // const particlesMaterial = new THREE.PointsMaterial({
+      //   // color: 0xd82751,
+      //   // map: particleTexture,
+      //   alphaMap: particleTexture,
+      //   transparent: true,
+      //   alphaTest: 0.5,
+      //   // sizeAttenuation: false,
+      //   size: 5,
+      //   vertexColors: true,
+      // });
+      // const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+      // // scene.add(particles);
 
       const volverVideoTex = new THREE.VideoTexture(volverVideo);
       volverVideo.play();
@@ -446,18 +553,17 @@ function init() {
       updateSceneOnScroll();
       animate();
 
-      // setTimeout(() => {
-      //   dots.id = "nav-dots";
-      //   setTimeout(() => {
-      //     loadingCover.style.opacity = 0;
-      //     // animate will call itself every frame after this
-      //     setTimeout(() => {
-      //       loadingCover.style.display = "none";
-      //       loadingCover.style.zIndex = -10;
-      //       app.style.overflowY = "auto";
-      //     }, 500);
-      //   }, 500);
-      // }, 1000);
+      window.addEventListener("resize", onWindowResize);
+      app.onscroll = updateSceneOnScroll;
+      window.onmousemove = (e) => {
+        if (animateScreen) {
+          camera.position.set(
+            0.15 * (2 * (e.clientX / window.innerWidth - 0.5)),
+            cameraHeight - 0.15 * (2 * (e.clientY / window.innerHeight - 0.5)),
+            10
+          );
+        }
+      };
     },
     undefined,
     (err) => {
@@ -466,8 +572,6 @@ function init() {
   );
 }
 
-// TODO: Should only call init if we're renderering the
-// Three.js scene to save performance on mobile
 init();
 
 setInterval(() => {

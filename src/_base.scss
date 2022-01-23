@@ -1,0 +1,59 @@
+body {
+  transition: background-color 500ms ease;
+  overflow: hidden;
+  margin: 0px;
+  background: linear-gradient(#eee 50%, #ddd 50%, #fff 55%, #fff 75%, #eee 75%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+#canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#app {
+  overflow-y: hidden; /* Change to overflow-y: auto when everything is loaded */
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  color: black;
+}
+
+.scroll-target {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  opacity: 0;
+}
+
+#loading-cover {
+  transition-duration: 500ms;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+  z-index: 10;
+  opacity: 1; /* change to opacity: 0 and then add display: none when everything is loaded */
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(
+      #202124 50%,
+      #2c2d30 50%,
+      #35363a 55%,
+      #35363a 75%,
+      #202124 75%
+    );
+  }
+
+  #loading-cover {
+    background-color: black;
+  }
+}

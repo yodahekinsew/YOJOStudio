@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, minimum-scale=1"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="output.css" />
     <title>YoJo Studio</title>
   </head>
   <body>
     <canvas id="canvas"></canvas>
     <div id="app">
+      <img id="yojo-logo" src="./static/YoJoLogo.svg" alt="YoJo logo" />
       <div id="loading-cover"></div>
       <div id="loading-dots">
         <div class="dot-holder">
           <a
+            name="Go To Start"
             class="dot bg-blue"
             onclick="overrideTransitionDuration()"
             href="#start-target"
@@ -23,6 +25,7 @@
         </div>
         <div class="dot-holder">
           <a
+            name="Go To Volver"
             class="dot bg-red"
             onclick="overrideTransitionDuration()"
             href="#volver-target"
@@ -31,6 +34,7 @@
 
         <div class="dot-holder">
           <a
+            name="Go To Movementum"
             class="dot bg-yellow"
             onclick="overrideTransitionDuration()"
             href="#movementum-target"
@@ -38,6 +42,7 @@
         </div>
         <div class="dot-holder">
           <a
+            name="Go To Hoppor"
             class="dot bg-green"
             onclick="overrideTransitionDuration()"
             href="#hoppor-target"
@@ -71,12 +76,21 @@
         /></a>
       </div>
       <div id="heading">
-        <h1>YoJo Studio</h1>
+        <img
+          id="yojo-studio-logo"
+          src="./static/YoJoStudioLogo.svg"
+          alt="YoJo Studio logo"
+        />
+        <!-- <h1>YoJo Studio</h1> -->
         <h2>
-          <span class="gray">Games</span> made by
-          <span class="gray">Yodahe Alemu</span> and
+          <span class="gray">Games</span> made by<br />
+          <span class="gray">Yodahe Alemu</span> and <br />
           <span class="gray">Joshua Verdejo</span>
         </h2>
+        <div class="scroll-down">
+          <img class="mouse" src="./static/mouse.svg" />
+          <img class="chevron-down" src="./static/down-arrow.svg" />
+        </div>
       </div>
       <div id="volver" class="page">
         <div class="content">
@@ -84,19 +98,21 @@
             <h1>Volver</h1>
             <h2 class="gray">Endless Revolution</h2>
           </div>
-          <p>
-            Take a spin on Volver, a simple, challenging game that is designed
-            to be <span class="italics">easy to learn</span> but
-            <span class="italics">hard to master</span>. <br /><br />
-            Volver includes: <br />
-            &emsp;&bull; <span class="bold">Simple gameplay:</span> play easily
-            with one hand <br />
-            &emsp;&bull; <span class="bold">Levels of difficulty:</span> as you
+          <p class="shadow">
+            Take a spin on <span class="bold highlight">Volver</span>, a game
+            designed to be <span class="italics">easy to learn</span> but
+            <span class="italics">hard to master</span> as you
+            <span class="bold">dodge obstacles</span>
+            with an <span class="bold">interesting movement system</span>.
+            <!-- <br /> -->
+            <!-- &emsp;<span class="bold">&bull; Simple gameplay:</span> Play easily
+            with one hand! <br />
+            &emsp;<span class="bold">&bull; Levels of difficulty:</span> As you
             get better, Volver gets more difficult! Compete with friends for the
-            highest score <br />
-            &emsp;&bull; <span class="bold">Customization:</span> Everything in
+            highest score! <br />
+            &emsp;<span class="bold">&bull; Customization:</span> Everything in
             the game is customizable, from the in game theme, to the app's icon
-            itself!
+            itself! -->
           </p>
           <a
             id="volver-app-store-link"
@@ -114,14 +130,18 @@
             <h1>Movementum</h1>
             <h2 class="gray">Move To Live</h2>
           </div>
-          <p>
-            In movementum, moving is your only method of
-            <span class="italics">offense</span> <span class="bold">and</span>
-            <span class="italics">defense</span>. <br /><br />
-            Dodge enemies and your own bullets as you try to survive for as long
+          <p class="shadow">
+            In <span class="bold highlight">Movementum</span>, moving is your
+            only method of both <span class="italics">offense</span>
+            <span class="bold">and</span>
+            <span class="italics">defense</span> against the
+            <span class="bold">waves of enemies</span>
+            rushing you.
+            <!-- <br /><br /> -->
+            <!-- Dodge enemies and your own bullets as you try to survive for as long
             as possible. Get the highest score you can and compete with your
             friends. And with no ads pestering you every minute, you can sit
-            back and enjoy the addicting gameplay and lo-fi hip hop music.
+            back and enjoy the addicting gameplay and lo-fi hip hop music. -->
           </p>
           <a
             id="movementum-app-store-link"
@@ -139,13 +159,16 @@
             <h1>Hoppor</h1>
             <h2 class="gray">Don't Stop Hopping</h2>
           </div>
-          <p>
-            If you want to win in Hoppor, you're only choice is to continue to
-            <span class="italics">climb higher</span>. <br /><br />
-            Hop between, bounce off, slide down, and avoid different platforms.
+          <p class="shadow">
+            If you want to win in <span class="bold highlight">Hoppor</span>,
+            you're <span class="italics">only choice</span> is to continue to
+            <span class="bold">hop higher</span> and
+            <span class="bold">avoid the traps</span> ahead of you.
+            <!-- <br /><br /> -->
+            <!-- Hop between, bounce off, slide down, and avoid different platforms.
             Get the highest score you can and compete with your friends. And
             with no ads pestering you every minute, you can sit back and enjoy
-            the addicting gameplay and chill music.
+            the addicting gameplay and chill music. -->
           </p>
           <a
             id="hoppor-app-store-link"

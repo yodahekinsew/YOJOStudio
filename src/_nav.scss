@@ -1,0 +1,114 @@
+@use "responsive";
+
+#loading-dots {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  left: 50%;
+  transform: translate(-50%);
+  will-change: bottom;
+  top: 50%;
+  z-index: 1000;
+  height: 100px;
+}
+#loading-dots > .dot-holder {
+  width: var(--loading-dot-size);
+  margin-left: calc(var(--loading-dot-size) / 2.5);
+  margin-right: calc(var(--loading-dot-size) / 2.5);
+}
+#loading-dots > .dot-holder > .dot {
+  transition-duration: 500ms;
+  position: absolute;
+  bottom: 0px;
+  height: var(--loading-dot-size);
+  width: var(--loading-dot-size);
+  animation: loading-dots 1.2s linear infinite;
+}
+#loading-dots .dot-holder:nth-child(1) > .dot {
+  animation-delay: -0.3s;
+}
+#loading-dots .dot-holder:nth-child(2) > .dot {
+  animation-delay: -0.2s;
+}
+#loading-dots .dot-holder:nth-child(3) > .dot {
+  animation-delay: -0.1s;
+}
+#loading-dots .dot-holder:nth-child(4) > .dot {
+  animation-delay: 0s;
+}
+@keyframes loading-dots {
+  0% {
+    bottom: 0px;
+  }
+  20% {
+    bottom: min(var(--loading-dot-size), 25%);
+  }
+  80% {
+    bottom: min(var(--loading-dot-size), 25%);
+  }
+  100% {
+    bottom: 0px;
+  }
+}
+
+#nav-dots {
+  transition-duration: 500ms;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+  top: 2.5%;
+  z-index: 1000;
+
+  opacity: 0;
+  pointer-events: none;
+  @include responsive.md {
+    opacity: unset;
+    pointer-events: unset;
+  }
+}
+
+#nav-dots > .dot-holder > .dot {
+  transition-duration: 500ms;
+}
+#nav-dots > .dot-holder > .dot .selected {
+  transform: scale(1.2);
+}
+#nav-dots > .dot-holder > .dot:hover {
+  transition-duration: 100ms;
+  transform: scale(1.2);
+}
+#nav-dots > .dot-holder > .dot:active {
+  transition-duration: 200ms;
+  transform: scale(0.8);
+}
+
+.dot-holder {
+  /* display: flex; */
+  transition-duration: 500ms;
+  height: 100px;
+  width: var(--nav-dot-size);
+  margin-left: calc(var(--nav-dot-size) / 2.5);
+  margin-right: calc(var(--nav-dot-size) / 2.5);
+}
+.dot {
+  border-radius: 100%;
+  height: var(--nav-dot-size);
+  width: var(--nav-dot-size);
+  display: block;
+  z-index: 1000;
+}
+
+.bg-blue {
+  background-color: var(--blue);
+}
+.bg-green {
+  background-color: var(--green);
+}
+.bg-yellow {
+  background-color: var(--yellow);
+}
+.bg-red {
+  background-color: var(--red);
+}

@@ -181,6 +181,7 @@ body {
   #nav-dots {
     opacity: 0;
     bottom: 50%;
+    pointer-events: none;
   }
 }
 #nav-dots > .dot-holder > .dot {
