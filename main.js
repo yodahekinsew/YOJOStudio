@@ -4,7 +4,7 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/l
 const canvas = document.getElementById("canvas");
 const app = document.getElementById("app");
 
-let scene, camera, renderer;
+let scene, camera, renderer, directionalLight;
 
 // === DOM elements setup ===
 const volverIcon = document.getElementById("volver-icon");
@@ -114,8 +114,6 @@ function setiPhoneTexture(textureIndex) {
 }
 function setiPhonePosition(x, y) {
   // TODO: Might need to remove the camera updates for performance sake
-  // let cameraPos = camera.position;
-  // camera.position.set(0, 0, 10);
   camera.updateMatrixWorld();
   camera.updateProjectionMatrix();
   const depth = new THREE.Vector3(0, 0, iPhoneWorldDepth).project(camera).z;
@@ -123,7 +121,10 @@ function setiPhonePosition(x, y) {
   newPos.x -= camera.position.x;
   newPos.y -= camera.position.y;
   iPhone.position.copy(newPos);
-  // camera.position.copy(cameraPos);
+
+  // Move directional light with phone so shadow is always in view
+  directionalLight.position.set(newPos.x, 15, 10);
+  directionalLight.target.position.set(0, 0, 0);
 }
 
 // Update (or animation) loop
@@ -451,22 +452,23 @@ function init() {
       camera.position.set(0, cameraHeight, 10);
 
       // Adding the spot light (main light)
-      const directionalLight = new THREE.DirectionalLight(
+      directionalLight = new THREE.DirectionalLight(
         usingDarkColorScheme ? "#19191A" : "#ffffff"
       );
       directionalLight.position.set(0, 15, 10);
       directionalLight.castShadow = true;
       directionalLight.shadow.camera = new THREE.OrthographicCamera(
-        -10,
-        10,
-        10,
+        -5,
+        5,
+        5,
         -10,
         0.1,
-        1000
+        50
       );
-      directionalLight.shadow.mapSize.width = 2048;
-      directionalLight.shadow.mapSize.height = 2048;
+      directionalLight.shadow.mapSize.width = 1024;
+      directionalLight.shadow.mapSize.height = 1024;
       scene.add(directionalLight);
+      scene.add(directionalLight.target);
 
       // Adding an ambient light (basically controls the shadow color since all materials are white)
       const ambientLight = new THREE.AmbientLight(
