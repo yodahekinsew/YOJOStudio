@@ -589,9 +589,9 @@ setInterval(() => {
     hopporVideo.readyState
   );
   if (
-    volverVideo.readyState == 4 &&
-    movementumVideo.readyState == 4 &&
-    hopporVideo.readyState == 4
+    volverVideo.readyState == 1 &&
+    movementumVideo.readyState == 1 &&
+    hopporVideo.readyState == 1
   ) {
     dots.id = "nav-dots";
     setTimeout(() => {
