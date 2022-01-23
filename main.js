@@ -531,7 +531,9 @@ function init() {
       var scrollDeltaBuildup = 0;
       const simulatedScrollSpeed = 15;
       const simulateScrolling = () => {
+        console.log(app.style.overflow);
         if (forceSmoothScrolling) {
+          console.log("simulating scrolling!");
           const simulatedScrollAmount = Math.min(
             simulatedScrollSpeed,
             Math.abs(scrollDeltaBuildup)
@@ -581,7 +583,7 @@ function init() {
 
 init();
 
-setInterval(() => {
+var initialInterval = setInterval(() => {
   console.log(
     "Ready States",
     volverVideo.readyState,
@@ -593,6 +595,7 @@ setInterval(() => {
     movementumVideo.readyState >= 1 &&
     hopporVideo.readyState >= 1
   ) {
+    clearInterval(initialInterval);
     dots.id = "nav-dots";
     setTimeout(() => {
       loadingCover.style.opacity = 0;
