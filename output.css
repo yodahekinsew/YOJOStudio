@@ -1,3 +1,13 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   transition: background-color 500ms ease;
   overflow: hidden;
@@ -20,14 +30,14 @@ body {
   overflow-y: hidden;
   /* Change to overflow-y: auto when everything is loaded */
   position: relative;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   color: black;
 }
 
 .scroll-target {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   position: relative;
   opacity: 0;
 }
@@ -35,8 +45,8 @@ body {
 #loading-cover {
   transition-duration: 500ms;
   position: fixed;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background-color: white;
   z-index: 10;
   opacity: 1;
@@ -65,14 +75,14 @@ body {
 }
 
 #yojo-studio-logo {
-  height: 15vh;
+  height: 34%;
 }
 
 #heading {
   /* transition-duration: 500ms; */
   position: fixed;
-  width: 75vw;
-  height: 45vh;
+  width: 75%;
+  height: 45%;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 0%);
@@ -104,8 +114,8 @@ body {
 }
 .page {
   transition-duration: var(--page-transition-speed);
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   position: fixed;
   opacity: 0;
   z-index: 10;
@@ -124,8 +134,8 @@ body {
 
 .content {
   position: absolute;
-  height: 90vh;
-  width: 80vw;
+  height: 90%;
+  width: 80%;
   left: 10%;
   /* Animate this in order to move the content out from the phone */
   bottom: 5%;
@@ -137,8 +147,8 @@ body {
 @media (min-width: 768px) {
   .content {
     justify-content: initial;
-    height: 35vh;
-    width: 40vw;
+    height: 35%;
+    width: 40%;
     bottom: 10%;
   }
 }
@@ -349,13 +359,13 @@ body {
   }
 }
 
-.mouse {
+#mouse {
   height: 100%;
 }
 
-.chevron-down {
-  margin-top: 7.5px;
-  height: 30%;
+#chevron-down {
+  margin-top: 30%;
+  height: 25%;
   animation: chevron-down-bobbing 2s ease-in-out infinite;
 }
 

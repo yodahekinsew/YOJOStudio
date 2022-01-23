@@ -1,3 +1,13 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   transition: background-color 500ms ease;
   overflow: hidden;
@@ -20,14 +30,14 @@ body {
 #app {
   overflow-y: hidden; /* Change to overflow-y: auto when everything is loaded */
   position: relative;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   color: black;
 }
 
 .scroll-target {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   position: relative;
   opacity: 0;
 }
@@ -35,8 +45,8 @@ body {
 #loading-cover {
   transition-duration: 500ms;
   position: fixed;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background-color: white;
   z-index: 10;
   opacity: 1; /* change to opacity: 0 and then add display: none when everything is loaded */

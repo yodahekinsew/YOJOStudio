@@ -2,8 +2,8 @@
 
 .page {
   transition-duration: var(--page-transition-speed);
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   position: fixed;
   opacity: 0;
   z-index: 10;
@@ -19,8 +19,8 @@
 }
 .content {
   position: absolute;
-  height: 90vh;
-  width: 80vw;
+  height: 90%;
+  width: 80%;
   left: 10%; /* Animate this in order to move the content out from the phone */
   bottom: 5%;
   display: flex;
@@ -29,8 +29,8 @@
   justify-content: space-between;
   @include responsive.md {
     justify-content: initial;
-    height: 35vh;
-    width: 40vw;
+    height: 35%;
+    width: 40%;
     bottom: 10%;
   }
 }

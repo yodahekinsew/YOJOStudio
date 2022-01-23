@@ -17,6 +17,21 @@ const dots = document.getElementById("loading-dots");
 const loadingCover = document.getElementById("loading-cover");
 const yojoLogo = document.getElementById("yojo-logo");
 const yojoStudioLogo = document.getElementById("yojo-studio-logo");
+const mouseIcon = document.getElementById("mouse");
+const chevronIcon = document.getElementById("chevron-down");
+
+// === Touchscreen Check ===
+var forceSmoothScrolling = true;
+// console.log(window.ontouchstart);
+window.ontouchstart = () => {
+  console.log("touching!");
+  forceSmoothScrolling = false;
+  app.style.overflowY = "auto";
+};
+window.ontouchend = () => {
+  forceSmoothScrolling = true;
+  app.style.overflowY = "hidden";
+};
 
 // === Media Queries ===
 var iPhoneOffsetFromCenter = 0.5;
@@ -28,7 +43,6 @@ function makeQuery(queryString, offset, shouldAnimateScreen) {
   const query = window.matchMedia(queryString);
   const handleQuery = (e) => {
     if (e.matches) {
-      console.log("Query: ", e, " passed!");
       iPhoneOffsetFromCenter = offset;
       animateScreen = prefersReducedMotion ? false : shouldAnimateScreen;
     }
@@ -61,6 +75,13 @@ const handlePrefersColorScheme = (e) => {
   if (e.matches) {
     yojoLogo.src = "./static/YoJoLogoWhite.svg";
     yojoStudioLogo.src = "./static/YoJoStudioLogoWhite.svg";
+    mouseIcon.src = "./static/mouse-white.svg";
+    chevronIcon.src = "./static/down-arrow-white.svg";
+  } else {
+    yojoLogo.src = "./static/YoJoLogo.svg";
+    yojoStudioLogo.src = "./static/YoJoStudioLogo.svg";
+    mouseIcon.src = "./static/mouse.svg";
+    chevronIcon.src = "./static/down-arrow.svg";
   }
 };
 const prefersColorSchemeQuery = window.matchMedia(
@@ -78,7 +99,6 @@ var iPhoneTextures = [];
 var currentTexture = -1;
 function setiPhoneTexture(textureIndex) {
   if (currentTexture != -1) {
-    console.log("PAUSEing video #", currentTexture);
     iPhoneTextures[currentTexture].video.pause();
     iPhoneTextures[currentTexture].video.time = 0;
   }
@@ -86,8 +106,6 @@ function setiPhoneTexture(textureIndex) {
 
   let videoTexture = iPhoneTextures[textureIndex];
   videoTexture.video.play();
-  console.log("PLAYing video #", currentTexture);
-  console.log("Video: ", videoTexture.video);
   const newMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
     map: videoTexture.texture,
@@ -343,19 +361,19 @@ function updateSceneOnScroll() {
 
 // Helper functions for making Three.js scene look good
 function toScreenPosition(vector, camera) {
-  var widthHalf = 0.5 * canvas.width;
-  var heightHalf = 0.5 * canvas.height;
+  var widthHalf = 0.5 * window.innerWidth;
+  var heightHalf = 0.5 * window.innerHeight;
 
   camera.updateMatrixWorld();
+  camera.updateProjectionMatrix();
   vector.project(camera);
 
   vector.x = vector.x * widthHalf + widthHalf;
   vector.y = -(vector.y * heightHalf) + heightHalf;
-  console.log(vector.x * 0.5, vector.y * 0.5);
 
   return {
-    x: vector.x * 0.5,
-    y: vector.y * 0.5,
+    x: vector.x,
+    y: vector.y,
   };
 }
 function onWindowResize() {
@@ -369,33 +387,35 @@ function onWindowResize() {
 function updateAppIcons() {
   camera.updateMatrixWorld();
   camera.updateProjectionMatrix();
-  // var halfIconSize = getComputedStyle(
-  //   document.documentElement
-  // ).getPropertyValue("--app-size");
-  // halfIconSize = parseInt(halfIconSize) / 2;
+
   var halfIconSize =
     (0.15 * Math.min(window.innerWidth, window.innerHeight)) / 2;
   const depth = new THREE.Vector3(0, 0, iPhoneWorldDepth).project(camera).z;
   var newPos = new THREE.Vector3(0.5, 0, depth).unproject(camera);
   newPos.x += 1;
   newPos.y -= 2.5;
+
   var screenPos = toScreenPosition(newPos, camera);
   if (screenPos.x - halfIconSize >= window.innerWidth)
     screenPos.x = window.innerWidth - 15;
   if (screenPos.y - halfIconSize >= window.innerHeight)
     screenPos.y = window.innerHeight - 15;
+
   volverIcon.style.left = `${screenPos.x - halfIconSize}px`;
   volverIcon.style.top = `${screenPos.y - halfIconSize}px`;
   hopporIcon.style.left = `${screenPos.x - halfIconSize}px`;
   hopporIcon.style.top = `${screenPos.y - halfIconSize}px`;
+
   newPos = new THREE.Vector3(-0.5, 0, depth).unproject(camera);
   newPos.x -= 1;
   newPos.y -= 2.5;
+
   screenPos = toScreenPosition(newPos, camera);
   if (screenPos.x - halfIconSize >= window.innerWidth)
     screenPos.x = window.innerWidth - 15;
   if (screenPos.y - halfIconSize >= window.innerHeight)
     screenPos.y = window.innerHeight - 15;
+
   movementumIcon.style.left = `${screenPos.x - halfIconSize}px`;
   movementumIcon.style.top = `${screenPos.y - halfIconSize}px`;
 }
@@ -406,7 +426,6 @@ function init() {
   loader.load(
     "./iPhone/model.glb",
     (gltf) => {
-      console.log("done loading!");
       iPhone = gltf.scene;
 
       // === Setting up scene ===
@@ -498,11 +517,46 @@ function init() {
 
       scene.add(iPhone);
 
-      updateAppIcons();
-      updateSceneOnScroll();
-      animate();
+      requestAnimationFrame(() => {
+        updateAppIcons();
+        updateSceneOnScroll();
+        animate();
+      });
 
       window.addEventListener("resize", onWindowResize);
+      var scrollDeltaBuildup = 0;
+      const simulatedScrollSpeed = 15;
+      const simulateScrolling = () => {
+        if (forceSmoothScrolling) {
+          const simulatedScrollAmount = Math.min(
+            simulatedScrollSpeed,
+            Math.abs(scrollDeltaBuildup)
+          );
+          if (scrollDeltaBuildup > 0) {
+            if (app.scrollTop >= app.scrollHeight - app.clientHeight) {
+              scrollDeltaBuildup = 0;
+            } else {
+              app.scrollTop += simulatedScrollAmount;
+              scrollDeltaBuildup -= simulatedScrollAmount;
+            }
+          }
+          if (scrollDeltaBuildup < 0) {
+            if (app.scrollTop <= 0) {
+              scrollDeltaBuildup = 0;
+            } else {
+              app.scrollTop -= simulatedScrollAmount;
+              scrollDeltaBuildup += simulatedScrollAmount;
+            }
+          }
+        }
+        requestAnimationFrame(simulateScrolling);
+      };
+      simulateScrolling();
+      app.onwheel = (e) => {
+        if (Math.sign(e.deltaY) != Math.sign(scrollDeltaBuildup))
+          scrollDeltaBuildup = 0;
+        scrollDeltaBuildup += e.deltaY;
+      };
       app.onscroll = updateSceneOnScroll;
       window.onmousemove = (e) => {
         if (animateScreen) {
@@ -536,7 +590,8 @@ setInterval(() => {
       setTimeout(() => {
         loadingCover.style.display = "none";
         loadingCover.style.zIndex = -10;
-        app.style.overflowY = "auto";
+        // app.style.overflowY = "auto";
+        // if (!forceSmoothScrolling) app.style.overflowY = "auto";
       }, 500);
     }, 500);
   }

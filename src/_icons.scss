@@ -14,13 +14,13 @@
   }
 }
 
-.mouse {
+#mouse {
   height: 100%;
 }
 
-.chevron-down {
-  margin-top: 7.5px;
-  height: 30%;
+#chevron-down {
+  margin-top: 30%;
+  height: 25%;
   animation: chevron-down-bobbing 2s ease-in-out infinite;
 }
 
@@ -35,31 +35,6 @@
     transform: translate(0px, 0px);
   }
 }
-
-// .chevron-down::after {
-//   position: absolute;
-//   top: 5vh;
-//   //   left: calc(100% / 2 - 8.75px);
-//   left: calc(0.21vh);
-//   width: 1.2vh;
-//   height: 0.6vh;
-//   border-radius: 0.5vh;
-//   transform: rotate(45deg);
-//   background-color: black;
-//   content: "";
-// }
-// .chevron-down::before {
-//   position: absolute;
-//   top: 5vh;
-//   //   left: calc(100% / 2 - 3.25px);
-//   left: calc(0.63vh);
-//   width: 1.2vh;
-//   height: 0.6vh;
-//   border-radius: 3px;
-//   transform: rotate(-45deg);
-//   background-color: black;
-//   content: "";
-// }
 
 img {
   transition-duration: 500ms;
