@@ -584,6 +584,9 @@ function init() {
 
 init();
 
+volverVideo.load();
+movementumVideo.load();
+hopporVideo.load();
 var initialInterval = setInterval(() => {
   console.log(
     "Ready States",
@@ -598,6 +601,9 @@ var initialInterval = setInterval(() => {
     finishedLoadingScene
   ) {
     clearInterval(initialInterval);
+    volverVideo.play();
+    movementumVideo.play();
+    hopporVideo.play();
     dots.id = "nav-dots";
     setTimeout(() => {
       loadingCover.style.opacity = 0;
