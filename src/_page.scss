@@ -46,7 +46,7 @@
 #movementum > .content {
   left: unset;
   right: 10%;
-  align-items: end;
+  align-items: flex-end;
   text-align: right;
   @include responsive.md {
     align-items: start;

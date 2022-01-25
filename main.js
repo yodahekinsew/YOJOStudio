@@ -341,7 +341,6 @@ function updateProperty(anim, scrollProgress) {
   }
 }
 function updateSceneOnScroll() {
-  console.log("detecting on scroll");
   var scrollProgress = app.scrollTop / (app.scrollHeight - app.clientHeight);
 
   // Go through all animation properties
@@ -556,7 +555,6 @@ function init() {
       simulateScrolling();
       app.onwheel = (e) => {
         e.preventDefault(); // Prevent the default scroll for mouse (not touch)
-        console.log("detecting on wheel!");
         if (Math.sign(e.deltaY) != Math.sign(scrollDeltaBuildup))
           scrollDeltaBuildup = 0;
         scrollDeltaBuildup += e.deltaY;
