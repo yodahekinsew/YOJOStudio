@@ -185,7 +185,7 @@ body {
 #movementum > .content {
   left: unset;
   right: 10%;
-  align-items: end;
+  align-items: flex-end;
   text-align: right;
 }
 @media (min-width: 768px) {
