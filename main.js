@@ -20,19 +20,6 @@ const yojoStudioLogo = document.getElementById("yojo-studio-logo");
 const mouseIcon = document.getElementById("mouse");
 const chevronIcon = document.getElementById("chevron-down");
 
-// === Touchscreen Check ===
-var forceSmoothScrolling = true;
-// window.ontouchstart = () => {
-//   console.log("touching!");
-//   forceSmoothScrolling = false;
-//   app.style.overflowY = "auto";
-// };
-// window.ontouchend = () => {
-//   console.log("not touching!");
-//   forceSmoothScrolling = true;
-//   app.style.overflowY = "hidden";
-// };
-
 // === Media Queries ===
 var iPhoneOffsetFromCenter = 0.5;
 var animateScreen = false;
@@ -544,34 +531,31 @@ function init() {
       var scrollDeltaBuildup = 0;
       const simulatedScrollSpeed = 15;
       const simulateScrolling = () => {
-        if (forceSmoothScrolling) {
-          console.log("forcing smooth scrollign");
-          const simulatedScrollAmount = Math.min(
-            simulatedScrollSpeed,
-            Math.abs(scrollDeltaBuildup)
-          );
-          if (scrollDeltaBuildup > 0) {
-            if (app.scrollTop >= app.scrollHeight - app.clientHeight) {
-              scrollDeltaBuildup = 0;
-            } else {
-              app.scrollTop += simulatedScrollAmount;
-              scrollDeltaBuildup -= simulatedScrollAmount;
-            }
+        const simulatedScrollAmount = Math.min(
+          simulatedScrollSpeed,
+          Math.abs(scrollDeltaBuildup)
+        );
+        if (scrollDeltaBuildup > 0) {
+          if (app.scrollTop >= app.scrollHeight - app.clientHeight) {
+            scrollDeltaBuildup = 0;
+          } else {
+            app.scrollTop += simulatedScrollAmount;
+            scrollDeltaBuildup -= simulatedScrollAmount;
           }
-          if (scrollDeltaBuildup < 0) {
-            if (app.scrollTop <= 0) {
-              scrollDeltaBuildup = 0;
-            } else {
-              app.scrollTop -= simulatedScrollAmount;
-              scrollDeltaBuildup += simulatedScrollAmount;
-            }
+        }
+        if (scrollDeltaBuildup < 0) {
+          if (app.scrollTop <= 0) {
+            scrollDeltaBuildup = 0;
+          } else {
+            app.scrollTop -= simulatedScrollAmount;
+            scrollDeltaBuildup += simulatedScrollAmount;
           }
         }
         requestAnimationFrame(simulateScrolling);
       };
       simulateScrolling();
       app.onwheel = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevent the default scroll for mouse (not touch)
         console.log("detecting on wheel!");
         if (Math.sign(e.deltaY) != Math.sign(scrollDeltaBuildup))
           scrollDeltaBuildup = 0;
