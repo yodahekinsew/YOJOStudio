@@ -22,17 +22,16 @@ const chevronIcon = document.getElementById("chevron-down");
 
 // === Touchscreen Check ===
 var forceSmoothScrolling = true;
-// console.log(window.ontouchstart);
-window.ontouchstart = () => {
-  console.log("touching!");
-  forceSmoothScrolling = false;
-  app.style.overflowY = "auto";
-};
-window.ontouchend = () => {
-  console.log("not touching!");
-  forceSmoothScrolling = true;
-  app.style.overflowY = "hidden";
-};
+// window.ontouchstart = () => {
+//   console.log("touching!");
+//   forceSmoothScrolling = false;
+//   app.style.overflowY = "auto";
+// };
+// window.ontouchend = () => {
+//   console.log("not touching!");
+//   forceSmoothScrolling = true;
+//   app.style.overflowY = "hidden";
+// };
 
 // === Media Queries ===
 var iPhoneOffsetFromCenter = 0.5;
@@ -497,10 +496,7 @@ function init() {
 
       // iPhone
       const volverVideoTex = new THREE.VideoTexture(volverVideo);
-      volverVideo.play();
-      movementumVideo.play();
       const movementumVideoTex = new THREE.VideoTexture(movementumVideo);
-      hopporVideo.play();
       const hopporVideoTex = new THREE.VideoTexture(hopporVideo);
 
       iPhoneTextures.push(
@@ -549,6 +545,7 @@ function init() {
       const simulatedScrollSpeed = 15;
       const simulateScrolling = () => {
         if (forceSmoothScrolling) {
+          console.log("forcing smooth scrollign");
           const simulatedScrollAmount = Math.min(
             simulatedScrollSpeed,
             Math.abs(scrollDeltaBuildup)
@@ -572,13 +569,13 @@ function init() {
         }
         requestAnimationFrame(simulateScrolling);
       };
-      simulateScrolling();
-      app.onwheel = (e) => {
-        console.log("detecting on wheel!");
-        if (Math.sign(e.deltaY) != Math.sign(scrollDeltaBuildup))
-          scrollDeltaBuildup = 0;
-        scrollDeltaBuildup += e.deltaY;
-      };
+      // simulateScrolling();
+      // app.onwheel = (e) => {
+      //   console.log("detecting on wheel!");
+      //   if (Math.sign(e.deltaY) != Math.sign(scrollDeltaBuildup))
+      //     scrollDeltaBuildup = 0;
+      //   scrollDeltaBuildup += e.deltaY;
+      // };
       app.onscroll = updateSceneOnScroll;
       window.onmousemove = (e) => {
         if (animateScreen) {
@@ -623,7 +620,7 @@ var initialInterval = setInterval(() => {
       setTimeout(() => {
         loadingCover.style.display = "none";
         loadingCover.style.zIndex = -10;
-        // app.style.overflowY = "auto";
+        app.style.overflowY = "auto";
         // if (!forceSmoothScrolling) app.style.overflowY = "auto";
       }, 500);
     }, 500);
