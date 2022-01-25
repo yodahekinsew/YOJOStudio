@@ -569,13 +569,14 @@ function init() {
         }
         requestAnimationFrame(simulateScrolling);
       };
-      // simulateScrolling();
-      // app.onwheel = (e) => {
-      //   console.log("detecting on wheel!");
-      //   if (Math.sign(e.deltaY) != Math.sign(scrollDeltaBuildup))
-      //     scrollDeltaBuildup = 0;
-      //   scrollDeltaBuildup += e.deltaY;
-      // };
+      simulateScrolling();
+      app.onwheel = (e) => {
+        e.preventDefault();
+        console.log("detecting on wheel!");
+        if (Math.sign(e.deltaY) != Math.sign(scrollDeltaBuildup))
+          scrollDeltaBuildup = 0;
+        scrollDeltaBuildup += e.deltaY;
+      };
       app.onscroll = updateSceneOnScroll;
       window.onmousemove = (e) => {
         if (animateScreen) {
